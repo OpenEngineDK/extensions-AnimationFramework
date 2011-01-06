@@ -66,18 +66,19 @@ void Bone::Apply(MeshPtr srcMesh, MeshPtr resMesh) {
    
     }
     */
-    /*
-    cout << "Offset: " << offsetMatrix << endl;
+
+    //    cout << "Offset: " << offsetMatrix << endl;
  
     Matrix<4,4,float> accMatrix = accRot.GetMatrix().GetExpanded();
-    accMatrix[0][3] = accPos[0];
-    accMatrix[1][3] = accPos[1];
-    accMatrix[2][3] = accPos[2];
-    cout << "AccMatrix: " << accMatrix << endl;
+    accMatrix(0,3) = accPos[0];
+    accMatrix(1,3) = accPos[1];
+    accMatrix(2,3) = accPos[2];
+    accMatrix(3,3) = 1.0;
+    //    cout << "AccMatrix: " << accMatrix << endl;
 
     // Calculate local bone matrix
     boneMatrix = accMatrix * offsetMatrix;
-    cout << "BoneMatrix: " << boneMatrix << endl;
+    //    cout << "BoneMatrix: " << boneMatrix << endl;
 
 
     IDataBlockPtr srcVert = srcMesh->GetGeometrySet()->GetVertices();
@@ -88,8 +89,8 @@ void Bone::Apply(MeshPtr srcMesh, MeshPtr resMesh) {
         unsigned int vertId = itr->first;
         float weight = itr->second;
 
-        if( vertId == 4 )
-            cout << "vertId: " << vertId << ", weight: " << weight << endl;
+//         if( vertId == 4 )
+//             cout << "vertId: " << vertId << ", weight: " << weight << endl;
 
         Vector<3,float> srcVec;
         srcVert->GetElement(vertId, srcVec);
@@ -97,8 +98,8 @@ void Bone::Apply(MeshPtr srcMesh, MeshPtr resMesh) {
         srcVec4[0] = srcVec[0];
         srcVec4[1] = srcVec[1];
         srcVec4[2] = srcVec[2];
-        srcVec4[3] = 0.0;
-        if( vertId == 4 ) cout << "srcVec: " << srcVec << endl;
+        srcVec4[3] = 1.0;
+        //        if( vertId == 4 ) cout << "srcVec: " << srcVec << endl;
 
         Vector<3,float> resVec;
         resVert->GetElement(vertId, resVec);
@@ -106,12 +107,11 @@ void Bone::Apply(MeshPtr srcMesh, MeshPtr resMesh) {
         resVec[0] += resVec4[0];
         resVec[1] += resVec4[1];
         resVec[2] += resVec4[2];
-        if( vertId == 4 ) cout << "resVec: " << resVec << endl;
+        //        if( vertId == 4 ) cout << "resVec: " << resVec << endl;
 
         resVert->SetElement(vertId, resVec);
    
     }
-*/
 }
 
 

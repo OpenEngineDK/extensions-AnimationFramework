@@ -49,6 +49,8 @@ namespace Animations {
         void Pause();
         void Reset();
 
+        void SetSpeed(float speed);
+        float GetSpeed();
         bool IsPlaying();
 
         ISceneNode* GetSceneNode();
@@ -65,6 +67,7 @@ namespace Animations {
         Animation* curAnim;         // Current animation sequence.
         AnimatedMesh* curAnimMesh;  // Current animated mesh (aka skinning).
         Timer timer;                // Sequence timer.
+        float speedFactor;         // Speed multiplier.
         bool isPlaying;
 
         void UpdateAnimatedTransformations();

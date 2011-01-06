@@ -15,7 +15,8 @@
 namespace OpenEngine {
 namespace Animations {
 
-AnimatedMesh::AnimatedMesh(MeshPtr sourceMesh) : srcMesh(sourceMesh), animatedMesh(sourceMesh->Clone()) {
+AnimatedMesh::AnimatedMesh(MeshPtr sourceMesh) 
+    : srcMesh(sourceMesh), animatedMesh(sourceMesh->Clone()) {
 }
 
 AnimatedMesh::~AnimatedMesh() {
@@ -42,8 +43,8 @@ void AnimatedMesh::Update(){
     // Reset source mesh since mesh deformers are destructive.
     (*animatedMesh->GetGeometrySet()->GetVertices()) *= 0; 
     
-    IDataBlockPtr srcVert = srcMesh->GetGeometrySet()->GetVertices();
-    IDataBlockPtr resVert = animatedMesh->GetGeometrySet()->GetVertices();
+    //    IDataBlockPtr srcVert = srcMesh->GetGeometrySet()->GetVertices();
+    //    IDataBlockPtr resVert = animatedMesh->GetGeometrySet()->GetVertices();
       
     /*                                  
     for( unsigned int i=0; i<srcVert->GetSize(); i++ ){
@@ -57,9 +58,7 @@ void AnimatedMesh::Update(){
     // Apply all mesh deformations (eg. each bone).
     std::vector<IMeshDeformer*>::iterator itr;
     for(itr=meshDeformers.begin(); itr!=meshDeformers.end(); itr++){
-        // Apply 
         (*itr)->Apply(srcMesh, animatedMesh);
-        //break;
     }
     
 

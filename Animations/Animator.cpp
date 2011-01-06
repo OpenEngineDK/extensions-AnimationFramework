@@ -25,7 +25,7 @@ using OpenEngine::Animations::Animation;
 using namespace OpenEngine::Scene;
 
 Animator::Animator(AnimationNode* animNode) 
-    : animRoot(animNode), animatedScene(animNode), curAnim(NULL), curAnimMesh(NULL), isPlaying(false) {
+    : animRoot(animNode), animatedScene(animNode), curAnim(NULL), curAnimMesh(NULL), speedFactor(1.0), isPlaying(false) {
     // Search the animation tree for sequences
     SearchTool search;
     std::list<AnimationNode*> animNodeRes;
@@ -98,6 +98,15 @@ void Animator::Reset() {
     timer.Reset();
 }
 
+void Animator::SetSpeed(float speed) {
+    speedFactor = speed;
+}
+
+float Animator::GetSpeed() {
+    return speedFactor;
+}
+
+
 bool Animator::IsPlaying() {
     return isPlaying;
 }
@@ -127,23 +136,13 @@ void Animator::Handle(Core::DeinitializeEventArg arg) {
 
 void Animator::UpdateAnimatedTransformations() {
     // Check time limits.
-    double speedFactor = 0.05f;
-
     double usecElapsed = ((timer.GetElapsedTime().sec * 1000000) + timer.GetElapsedTime().usec) * speedFactor;
     //std::cout << "Duration: " << curAnim->GetDuration() << " Elapsed: " << usecElapsed << std::endl;
 
     if( usecElapsed > curAnim->GetDuration() ){
-        //logger.info << "resetting animation time" << logger.end;
         timer.Reset();
     }
     curAnim->UpdateTransformations(usecElapsed);
-    /*
-    // Set fixed time
-    static double count = 0;
-    count += 100;
-    if( count > 800000 ) count = 0;
-    curAnim->UpdateTransformations(count);
-    */
 }
 
 void Animator::UpdateAnimatedMeshes() {

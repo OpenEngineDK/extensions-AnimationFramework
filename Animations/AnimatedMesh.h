@@ -34,10 +34,9 @@ namespace Animations {
         void Update();
 
     private:
-        MeshPtr srcMesh;
-        MeshPtr animatedMesh;
+        MeshPtr srcMesh;       // The undeformed mesh in bind pose.
+        MeshPtr animatedMesh;  // The mesh on which the IMeshDeformers are applied.
         std::vector<IMeshDeformer*> meshDeformers;
-        
     };
     
 } // NS Animation
