@@ -40,6 +40,8 @@ namespace Animations {
         TransformationNode* GetAnimatedNode();
         
         void AddRotationKey(unsigned int time, Math::Quaternion<float> key);
+        void AddPositionKey(unsigned int time, Math::Vector<3,float> key);
+        void AddScalingKey( unsigned int time, Math::Vector<3,float> key);
 
         void UpdateAndApply(unsigned int time);
 

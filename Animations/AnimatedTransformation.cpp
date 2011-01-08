@@ -42,38 +42,73 @@ void AnimatedTransformation::AddRotationKey(unsigned int time, Math::Quaternion<
     rotationKeys.push_back(std::make_pair(time, key));
 }
 
+void AnimatedTransformation::AddPositionKey(unsigned int time, Math::Vector<3,float> key) {
+    positionKeys.push_back(std::make_pair(time, key));
+}
+
+void AnimatedTransformation::AddScalingKey( unsigned int time, Math::Vector<3,float> key) {
+    scalingKeys.push_back(std::make_pair(time, key));
+}
+
 void AnimatedTransformation::UpdateAndApply(unsigned int time) {
-    std::pair<double, Math::Quaternion<float> > elm, kStart, kEnd;
-
-    kStart.first = -1;
-    kEnd.first = -1;
-
+    // Find rotation key frame interval and interpolate in between.
+    std::pair<double, Math::Quaternion<float> > rotElm, rotStart, rotEnd;
+    rotStart.first = -1;
+    rotEnd.first = -1;
     std::vector< std::pair<double, Math::Quaternion<float> > >::iterator itr;
     for(itr=rotationKeys.begin(); itr!=rotationKeys.end(); itr++){
-        elm = *itr;
-        if( time >= elm.first ) {
-            kStart = elm;
+        rotElm = *itr;
+        if( time >= rotElm.first ) {
+            rotStart = rotElm;
         }else{
-            kEnd = elm;
+            rotEnd = rotElm;
             break;
         }
     }
-
-    elm = kStart;
-    // Interpolation between kStart.second and kEnd.second.
-    if( kStart.first != -1 && kEnd.first != -1 ){
-        double delta = kEnd.first - kStart.first;
-        double iTime = time - kStart.first;
+    rotElm = rotStart;
+    // Interpolation between rotStart.second and rotEnd.second.
+    if( rotStart.first != -1 && rotEnd.first != -1 ){
+        double delta = rotEnd.first - rotStart.first;
+        double iTime = time - rotStart.first;
         double progr = 0;
         
         if( delta > 0 )
             progr = iTime / delta;
-        
-        elm.second = Quaternion<float>(kStart.second, kEnd.second, progr);
+
+        rotElm.second = Quaternion<float>(rotStart.second, rotEnd.second, progr);
     }
 
     // Apply rotation to affected transformation node.
-    target->SetRotation(elm.second);
+    target->SetRotation(rotElm.second);
+
+    // Find position key frame interval and interpolate in between.
+    std::pair<double, Math::Vector<3,float> > posElm, posStart, posEnd;
+    posStart.first = -1;
+    posEnd.first = -1;
+    std::vector< std::pair<double, Math::Vector<3,float> > >::iterator posItr;
+    for(posItr=positionKeys.begin(); posItr!=positionKeys.end(); posItr++) {
+        posElm = *posItr;
+        if( time >= posElm.first ) {
+            posStart = posElm;
+        } else {
+            posEnd = posElm;
+            break;
+        }
+    }
+    posElm = posStart;
+    if( posStart.first != -1 && posEnd.first != -1 ){
+        double delta = posEnd.first - posStart.first;
+        double iTime = time - posStart.first;
+        double progr = 0;
+        
+        if( delta > 0 )
+            progr = iTime / delta;
+
+        // Interpolate vector: deltaVec * scale + startVec
+        posElm.second = ((posEnd.second - posStart.second) * progr) + posStart.second;
+    }
+    // Apply position to affected transformation node.
+    target->SetPosition(posElm.second);
 }
 
 
