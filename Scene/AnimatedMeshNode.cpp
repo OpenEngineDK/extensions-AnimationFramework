@@ -11,6 +11,7 @@
 #include <Animations/Animation.h>
 #include <Animations/AnimatedMesh.h>
 #include <string>
+#include <stdio.h>
 
 using namespace OpenEngine::Animations;
 namespace OpenEngine {
