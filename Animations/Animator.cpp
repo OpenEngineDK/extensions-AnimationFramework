@@ -121,10 +121,11 @@ void Animator::Handle(Core::InitializeEventArg arg) {
 }
 
 void Animator::Handle(Core::ProcessEventArg arg) {
+    // Update transformations.
     if( curAnim ) {        
         UpdateAnimatedTransformations();
     }
-
+    // Update mesh deformations.
     if( curAnimMesh ){
         UpdateAnimatedMeshes();        
     }

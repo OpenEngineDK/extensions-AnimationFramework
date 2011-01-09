@@ -43,8 +43,8 @@ void AnimatedMesh::Update(){
     // Reset source mesh since mesh deformers are destructive.
     (*animatedMesh->GetGeometrySet()->GetVertices()) *= 0; 
     
-    //    IDataBlockPtr srcVert = srcMesh->GetGeometrySet()->GetVertices();
-    //    IDataBlockPtr resVert = animatedMesh->GetGeometrySet()->GetVertices();
+    //IDataBlockPtr srcVert = srcMesh->GetGeometrySet()->GetVertices();
+    //IDataBlockPtr resVert = animatedMesh->GetGeometrySet()->GetVertices();
       
     /*                                  
     for( unsigned int i=0; i<srcVert->GetSize(); i++ ){
@@ -61,19 +61,24 @@ void AnimatedMesh::Update(){
         (*itr)->Apply(srcMesh, animatedMesh);
     }
     
-
-    /*  
+    /*
+    int count = 0;
     Vector<3,float> srcVec;        
     Vector<3,float> resVec;
     for( unsigned int i=0; i<srcVert->GetSize(); i++ ){
         srcVert->GetElement(i, srcVec);
         resVert->GetElement(i, resVec);
 
-        if( resVec.GetLength() < 0.01 )
-            resVec = srcVec;
+        if( resVec.GetLength() < 0.01 ){
+            count++;
+            //resVec = srcVec;
+        }
 
     
         resVert->SetElement(i, resVec);
+    }
+    if( count > 0 ){
+        cout << "Vertices left untouched by bone structure" << endl;
     }
     */
 }
