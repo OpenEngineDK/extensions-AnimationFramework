@@ -9,7 +9,6 @@ ADD_LIBRARY(Extensions_AnimationFramework
   Animations/Bone.cpp
   # Scene
   Scene/AnimatedMeshNode.cpp
-  Scene/AnimatedTransformation.cpp
   Scene/AnimatedTransformationNode.cpp
   Scene/AnimationNode.cpp
 )
