@@ -40,7 +40,7 @@ const std::string AnimationNode::ToString() const {
     if( animation ){
         str = animation->GetName();
     }else{
-        str = GetNodeName();
+        str = GetInfo();
     }
 
     str.append("\n[AnimationNode]");

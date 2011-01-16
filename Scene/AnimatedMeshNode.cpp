@@ -38,7 +38,7 @@ void AnimatedMeshNode::SetAnimatedMesh(AnimatedMesh* animMesh) {
 
 
 const std::string AnimatedMeshNode::ToString() const {
-    std::string str = GetNodeName(); 
+    std::string str = GetInfo(); 
     str.append("\n[AnimatedMeshNode]");
     unsigned int numDeformers = 0;
     if( animMesh ){
