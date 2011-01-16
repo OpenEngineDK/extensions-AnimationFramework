@@ -53,6 +53,13 @@ unsigned int Animation::GetNumAnimatedTransformations() {
     return animTrans.size();
 }
 
+AnimatedTransformation* Animation::GetAnimatedTransformation(unsigned int idx) {
+    if( idx < animTrans.size()-1 ) 
+        return animTrans[idx];
+    else
+        return NULL;
+}
+
 void Animation::AddAnimatedTransformation(AnimatedTransformation* anim) {
     animTrans.push_back(anim);
 }

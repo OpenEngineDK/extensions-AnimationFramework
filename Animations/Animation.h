@@ -46,6 +46,7 @@ namespace Animations {
 
         bool HasAnimatedTransformations();
         unsigned int GetNumAnimatedTransformations();
+        AnimatedTransformation* GetAnimatedTransformation(unsigned int idx);
         void AddAnimatedTransformation(AnimatedTransformation* anim);
 
         bool HasAnimatedMesh();
