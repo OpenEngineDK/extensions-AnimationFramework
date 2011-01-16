@@ -61,6 +61,10 @@ void AnimatedMesh::Update(){
         (*itr)->Apply(srcMesh, animatedMesh);
     }
     
+    IDataBlockPtr ptr = animatedMesh->GetGeometrySet()->GetVertices();
+    IDataBlockChangedEventArg arg(ptr);
+    ptr->ChangedEvent().Notify(arg);
+
     /*
     int count = 0;
     Vector<3,float> srcVec;        
