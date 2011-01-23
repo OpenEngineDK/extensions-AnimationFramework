@@ -68,7 +68,7 @@ void Bone::Apply(MeshPtr srcMesh, MeshPtr resMesh) {
     */
 
     //    cout << "Offset: " << offsetMatrix << endl;
- 
+    // accRot.Normalize();
     Matrix<4,4,float> accMatrix = accRot.GetMatrix().GetExpanded();
     accMatrix(0,3) = accPos[0];
     accMatrix(1,3) = accPos[1];
@@ -80,9 +80,13 @@ void Bone::Apply(MeshPtr srcMesh, MeshPtr resMesh) {
     boneMatrix = accMatrix * offsetMatrix;
     //    cout << "BoneMatrix: " << boneMatrix << endl;
 
-
+    Matrix<3,3,float> rotation = boneMatrix.GetReduced();
+    
     IDataBlockPtr srcVert = srcMesh->GetGeometrySet()->GetVertices();
     IDataBlockPtr resVert = resMesh->GetGeometrySet()->GetVertices();
+
+    IDataBlockPtr srcNorm = srcMesh->GetGeometrySet()->GetNormals();
+    IDataBlockPtr resNorm = resMesh->GetGeometrySet()->GetNormals();
 
     std::vector< std::pair<unsigned int, float> >::iterator itr;
     for(itr=weights.begin(); itr!=weights.end(); itr++){
@@ -109,9 +113,24 @@ void Bone::Apply(MeshPtr srcMesh, MeshPtr resMesh) {
         resVec[2] += resVec4[2];
         //        if( vertId == 4 ) cout << "resVec: " << resVec << endl;
 
+
+        Vector<3,float> srcN;
+        Vector<3,float> destN;
+
+        srcNorm->GetElement(vertId, srcN);
+        resNorm->GetElement(vertId, destN);
+
+
+        srcN = (rotation * srcN) * weight;
+        destN += srcN;
+
+
         resVert->SetElement(vertId, resVec);
+        resNorm->SetElement(vertId, destN);
+        
    
     }
+
 }
 
 

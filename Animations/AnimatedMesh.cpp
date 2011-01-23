@@ -42,6 +42,7 @@ void AnimatedMesh::Update(){
     //logger.info << "AnimatedMesh updating mesh: " << srcMesh << logger.end;
     // Reset source mesh since mesh deformers are destructive.
     (*animatedMesh->GetGeometrySet()->GetVertices()) *= 0; 
+    (*animatedMesh->GetGeometrySet()->GetNormals()) *= 0; 
     
     //IDataBlockPtr srcVert = srcMesh->GetGeometrySet()->GetVertices();
     //IDataBlockPtr resVert = animatedMesh->GetGeometrySet()->GetVertices();
@@ -63,6 +64,10 @@ void AnimatedMesh::Update(){
     
     IDataBlockPtr ptr = animatedMesh->GetGeometrySet()->GetVertices();
     IDataBlockChangedEventArg arg(ptr);
+    ptr->ChangedEvent().Notify(arg);
+
+    ptr = animatedMesh->GetGeometrySet()->GetNormals();
+    arg = IDataBlockChangedEventArg(ptr);
     ptr->ChangedEvent().Notify(arg);
 
     /*
