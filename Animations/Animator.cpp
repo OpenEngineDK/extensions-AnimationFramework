@@ -25,7 +25,14 @@ using OpenEngine::Animations::Animation;
 using namespace OpenEngine::Scene;
 
 Animator::Animator(AnimationNode* animNode) 
-    : animRoot(animNode), animatedScene(animNode), curAnim(NULL), curAnimMesh(NULL), speedFactor(1.0), isPlaying(false) {
+    : animRoot(animNode)
+    , animatedScene(animNode)
+    , curAnim(NULL)
+    , curAnimMesh(NULL)
+    , speedFactor(1.0)
+    , isPlaying(false)
+    , loopAnimation(true) {
+
     // Search the animation tree for sequences
     SearchTool search;
     std::list<AnimationNode*> animNodeRes;
@@ -78,6 +85,10 @@ void Animator::SetActiveAnimation(unsigned int idx) {
 
 void Animator::Play(){
     if( curAnim ){
+        if( !loopAnimation && GetElapsedTime() > curAnim->GetDuration() ){
+            Reset();
+        }
+
         timer.Start();
         isPlaying = true;
     }
@@ -98,6 +109,11 @@ void Animator::Reset() {
     timer.Reset();
 }
 
+void Animator::LoopAnimation(bool loop) {
+    this->loopAnimation = loop;
+}
+
+
 void Animator::SetSpeed(float speed) {
     speedFactor = speed;
 }
@@ -117,7 +133,6 @@ ISceneNode* Animator::GetSceneNode() {
 }
 
 void Animator::Handle(Core::InitializeEventArg arg) {
-    logger.info << "init" << logger.end;
 }
 
 void Animator::Handle(Core::ProcessEventArg arg) {
@@ -132,16 +147,13 @@ void Animator::Handle(Core::ProcessEventArg arg) {
 }
 
 void Animator::Handle(Core::DeinitializeEventArg arg) {
-    logger.info << "deinit" << logger.end;
 }
 
 void Animator::UpdateAnimatedTransformations() {
     // Check time limits.
-    double usecElapsed = ((timer.GetElapsedTime().sec * 1000000) + timer.GetElapsedTime().usec) * speedFactor;
-    //std::cout << "Duration: " << curAnim->GetDuration() << " Elapsed: " << usecElapsed << std::endl;
-
+    double usecElapsed = GetElapsedTime();
     if( usecElapsed > curAnim->GetDuration() ){
-        timer.Reset();
+        loopAnimation ? Reset() : Pause();
     }
     curAnim->UpdateTransformations(usecElapsed);
 }
@@ -152,6 +164,13 @@ void Animator::UpdateAnimatedMeshes() {
         curAnimMesh->Update();
     }
 }
+
+double Animator::GetElapsedTime() {
+    return ((timer.GetElapsedTime().sec * 1000000) + 
+            timer.GetElapsedTime().usec) * speedFactor;
+
+}
+
 
 } // NS Animation
 } // NS OpenEngine

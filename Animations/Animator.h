@@ -48,6 +48,7 @@ namespace Animations {
         void Stop();
         void Pause();
         void Reset();
+        void LoopAnimation(bool loop);
 
         void SetSpeed(float speed);
         float GetSpeed();
@@ -69,9 +70,11 @@ namespace Animations {
         Timer timer;                // Sequence timer.
         float speedFactor;         // Speed multiplier.
         bool isPlaying;
+        bool loopAnimation;
 
         void UpdateAnimatedTransformations();
         void UpdateAnimatedMeshes();
+        double GetElapsedTime();
     };
     
 
