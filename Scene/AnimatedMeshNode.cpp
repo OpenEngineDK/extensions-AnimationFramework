@@ -44,7 +44,7 @@ const std::string AnimatedMeshNode::ToString() const {
     if( animMesh ){
         numDeformers = animMesh->GetNumMeshDeformers();
     }
-    char buf[16];
+    char buf[25];
     sprintf(buf, "\n Mesh Deformers: %i", numDeformers);
     str.append(buf);
     return str;
