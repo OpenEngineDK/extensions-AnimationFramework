@@ -107,6 +107,7 @@ void Animator::Pause() {
 
 void Animator::Reset() {
     timer.Reset();
+    UpdateAnimation();
 }
 
 void Animator::LoopAnimation(bool loop) {
@@ -136,6 +137,14 @@ void Animator::Handle(Core::InitializeEventArg arg) {
 }
 
 void Animator::Handle(Core::ProcessEventArg arg) {
+    // Update both transformations and meshes.
+    UpdateAnimation();
+}
+
+void Animator::Handle(Core::DeinitializeEventArg arg) {
+}
+
+void Animator::UpdateAnimation() {
     // Update transformations.
     if( curAnim ) {        
         UpdateAnimatedTransformations();
@@ -144,9 +153,6 @@ void Animator::Handle(Core::ProcessEventArg arg) {
     if( curAnimMesh ){
         UpdateAnimatedMeshes();        
     }
-}
-
-void Animator::Handle(Core::DeinitializeEventArg arg) {
 }
 
 void Animator::UpdateAnimatedTransformations() {

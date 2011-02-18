@@ -72,6 +72,7 @@ namespace Animations {
         bool isPlaying;
         bool loopAnimation;
 
+        void UpdateAnimation();
         void UpdateAnimatedTransformations();
         void UpdateAnimatedMeshes();
         double GetElapsedTime();
