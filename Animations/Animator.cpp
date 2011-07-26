@@ -137,7 +137,8 @@ void Animator::Handle(Core::InitializeEventArg arg) {
 }
 
 void Animator::Handle(Core::ProcessEventArg arg) {
-    // Update both transformations and meshes.
+    if (!isPlaying) return;
+   // Update both transformations and meshes.
     UpdateAnimation();
 }
 
