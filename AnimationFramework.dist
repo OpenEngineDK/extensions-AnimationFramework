@@ -1,3 +1,3 @@
 # source
-darcs /extensions/AnimationFramework    http://openengine.dk/code/extensions/AnimationFramework
-darcs-dev /extensions/AnimationFramework    fh.daimi.au.dk:/users/cgd/code/extensions/AnimationFramework
+git /extensions/AnimationFramework    https://github.com/OpenEngineDK/extensions-AnimationFramework.git
+git-dev /extensions/AnimationFramework    git@github.com:OpenEngineDK/extensions-AnimationFramework.git
